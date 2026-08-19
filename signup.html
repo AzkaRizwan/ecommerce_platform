@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account — Lumen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#1B2A22;
+    --cream:#F6F3EC;
+    --moss:#2F4A3C;
+    --coral:#E8623D;
+    --line:#D9D3C5;
+    --muted:#6B7368;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+  }
+
+  /* Left panel — brand side */
+  .brand-side{
+    flex:1;
+    background:var(--moss);
+    color:var(--cream);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:56px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .brand-side::before{
+    content:"";
+    position:absolute;
+    right:-120px;
+    bottom:-120px;
+    width:360px;
+    height:360px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(232,98,61,0.35), transparent 70%);
+  }
+
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:24px;
+    letter-spacing:0.5px;
+  }
+
+  .brand-copy{
+    max-width:380px;
+    z-index:1;
+  }
+
+  .brand-copy .eyebrow{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#B9C9BC;
+    margin-bottom:18px;
+  }
+
+  .brand-copy h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:40px;
+    line-height:1.15;
+    margin-bottom:18px;
+  }
+
+  .brand-copy p{
+    color:#CBD6CD;
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  .perks{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:36px;
+    z-index:1;
+  }
+
+  .perks div{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    color:#DDE5DE;
+  }
+
+  .perks span.dot{
+    width:6px; height:6px;
+    background:var(--coral);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .footnote{
+    font-size:12px;
+    color:#8DA090;
+    z-index:1;
+  }
+
+  /* Right panel — form side */
+  .form-side{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+  }
+
+  .form-wrap{
+    width:100%;
+    max-width:400px;
+  }
+
+  .form-wrap h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:28px;
+    margin-bottom:6px;
+  }
+
+  .form-wrap .sub{
+    font-size:14px;
+    color:var(--muted);
+    margin-bottom:32px;
+  }
+
+  .form-wrap .sub a{
+    color:var(--moss);
+    font-weight:600;
+    text-decoration:none;
+    border-bottom:1px solid var(--moss);
+  }
+
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .row{
+    display:flex;
+    gap:12px;
+  }
+
+  .field{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .field label{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:0.2px;
+  }
+
+  .field input{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:14.5px;
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    outline:none;
+    transition:border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .field input::placeholder{
+    color:#A9AA9C;
+  }
+
+  .field input:focus{
+    border-color:var(--moss);
+    box-shadow:0 0 0 3px rgba(47,74,60,0.12);
+  }
+
+  .field small.err{
+    display:none;
+    font-size:12px;
+    color:var(--coral);
+  }
+
+  .field.invalid input{
+    border-color:var(--coral);
+  }
+
+  .field.invalid small.err{
+    display:block;
+  }
+
+  .strength{
+    height:4px;
+    border-radius:2px;
+    background:var(--line);
+    overflow:hidden;
+    margin-top:2px;
+  }
+
+  .strength-bar{
+    height:100%;
+    width:0%;
+    background:var(--coral);
+    transition:width 0.2s ease, background 0.2s ease;
+  }
+
+  .terms{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+
+  .terms input{
+    margin-top:3px;
+    accent-color:var(--moss);
+  }
+
+  .terms a{
+    color:var(--moss);
+    font-weight:600;
+    text-decoration:none;
+  }
+
+  button.submit{
+    background:var(--moss);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:14px;
+    font-size:15px;
+    font-weight:600;
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    margin-top:6px;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+
+  button.submit:hover{
+    background:#25392E;
+  }
+
+  button.submit:active{
+    transform:scale(0.99);
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:26px 0;
+    color:#A9AA9C;
+    font-size:12.5px;
+  }
+
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  .social{
+    display:flex;
+    gap:12px;
+  }
+
+  .social button{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:11px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .social button:hover{
+    border-color:var(--moss);
+    background:#FBFAF6;
+  }
+
+  @media (max-width: 860px){
+    body{flex-direction:column;}
+    .brand-side{padding:40px 28px;}
+    .brand-copy h1{font-size:30px;}
+    .perks{display:none;}
+    .form-side{padding:32px 24px 56px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand-side">
+    <div class="logo">Lumen</div>
+
+    <div class="brand-copy">
+      <div class="eyebrow">Join the studio</div>
+      <h1>Considered pieces, made to last longer than the season.</h1>
+      <p>Create an account to track orders, save your fits, and get early access to restocks before anyone else.</p>
+      <div class="perks">
+        <div><span class="dot"></span> Free shipping on your first order</div>
+        <div><span class="dot"></span> Early access to limited drops</div>
+        <div><span class="dot"></span> One-click reorder on past favorites</div>
+      </div>
+    </div>
+
+    <div class="footnote">© 2026 Lumen Goods Co.</div>
+  </div>
+
+  <div class="form-side">
+    <div class="form-wrap">
+      <h2>Create your account</h2>
+      <p class="sub">Already shopping with us? <a href="#">Log in</a></p>
+
+      <form id="signupForm" novalidate>
+        <div class="row">
+          <div class="field" id="firstNameField">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" placeholder="Ayesha" required>
+            <small class="err">Enter your first name</small>
+          </div>
+          <div class="field" id="lastNameField">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" placeholder="Khan" required>
+            <small class="err">Enter your last name</small>
+          </div>
+        </div>
+
+        <div class="field" id="emailField">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+          <small class="err">Enter a valid email address</small>
+        </div>
+
+        <div class="field" id="passwordField">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Minimum 8 characters" required>
+          <div class="strength"><div class="strength-bar" id="strengthBar"></div></div>
+          <small class="err">Password must be at least 8 characters</small>
+        </div>
+
+        <div class="field" id="confirmField">
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" placeholder="Re-enter password" required>
+          <small class="err">Passwords do not match</small>
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" id="terms" required>
+          <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and to receive order updates by email.</span>
+        </label>
+
+        <button type="submit" class="submit">Create account</button>
+      </form>
+
+      <div class="divider">or sign up with</div>
+
+      <div class="social">
+        <button type="button">Google</button>
+        <button type="button">Apple</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const password = document.getElementById('password');
+  const strengthBar = document.getElementById('strengthBar');
+
+  password.addEventListener('input', () => {
+    const val = password.value;
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    const pct = (score / 4) * 100;
+    strengthBar.style.width = pct + '%';
+    strengthBar.style.background = score <= 1 ? '#E8623D' : score <= 2 ? '#E0A83D' : '#2F4A3C';
+  });
+
+  function setInvalid(fieldId, invalid){
+    const field = document.getElementById(fieldId);
+    field.classList.toggle('invalid', invalid);
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const pass = password.value;
+    const confirm = document.getElementById('confirm').value;
+    const terms = document.getElementById('terms').checked;
+
+    let valid = true;
+
+    setInvalid('firstNameField', firstName === '');
+    if (firstName === '') valid = false;
+
+    setInvalid('lastNameField', lastName === '');
+    if (lastName === '') valid = false;
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setInvalid('emailField', !emailOk);
+    if (!emailOk) valid = false;
+
+    setInvalid('passwordField', pass.length < 8);
+    if (pass.length < 8) valid = false;
+
+    setInvalid('confirmField', confirm !== pass || confirm === '');
+    if (confirm !== pass || confirm === '') valid = false;
+
+    if (!terms){
+      alert('Please accept the Terms of Service to continue.');
+      valid = false;
+    }
+
+    if (valid){
+      alert('Account created — welcome to Lumen!');
+      form.reset();
+      strengthBar.style.width = '0%';
+    }
+  });
+</script>
+
+</body>
+</html>
